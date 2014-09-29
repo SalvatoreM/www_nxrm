@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<!--<body>-->
+<body  style="background-image: url(sfondi/nuvole.jpg);">
+<table align="center" style="width:800px;align:center; background-image: url(sfondi/nuvole.jpg);" cellpadding="0" cellspacing="0" background=”nuvole.jpg”>
+<tr>
+<!-- <td colspan="2" style="background-color:LightGreen;text-align:center;">-->
+<td colspan="2" style="text-align:center;">
+<img src="logo_ninux-fi.png" style="align:left">
+<h1 >Ninux Rate Meter</h1><h2>N<sub>x</sub>RM</h2>
+</td>
+</tr>
+<tr>
+<td style="background-color:#FFD700;width:100px;vertical-align:center;text-align:center;">
+<b>Menu</b>
+<hr>
+<form name="input" action="demo_form_action.asp" method="get">
+<input type="submit" value="Home">
+</form>
+<form name="input" action="demo_form_action.asp" method="get">
+<input type="submit" value="Registra un Nodo">
+</form>
+<form name="input" action="demo_form_action.asp" method="get">
+<input type="submit" value="Tabelle">
+</form>
+<form name="input" action="demo_form_action.asp" method="get">
+<input type="submit" value="Grafici">
+</form>
+</td>
+<td style="background-color:#eeeeee;height:200px;width:700px;vertical-align:top;">
+<form style="text-align:center;" name="input" action="demo_form_action.asp" method="get">
+<h3>Registrazione Nodo</h3>
+<hr>
+<h4 style="text-align:left;">Identita' del Nodo</h4>
+<br><br>&nbsp;&nbsp;Nome del Nodo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="nomenodo" value=""><br><br>
+&nbsp;&nbsp;IP Antenna WiFi:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ipwifi" value=""><br><br>
+&nbsp;&nbsp;IP di Manutenzione: <input type="text" name="ipman="Indirizzo IP della WiFi" value=""><br><br>
+<input  type="submit" value="Registra">
+<hr>
+<h4 style="text-align:left;">Servizi Offerti dal Nodo</h4>
+<br><br>Descrizione:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="descrizione" value=""><br><br>
+Indirizzo IP:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ipservizio" value=""><br><br>
+Porta:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="porta="Indirizzo IP della WiFi" value=""><br><br>
+<input  type="submit" value="Aggiungi">
+</form>
+<br><br>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="background-color:#FFA500;text-align:center;">
+GPL Ninux_Rate_Meter (N<sub>x</sub>RM)</td>
+</tr>
+</table>
+</body>
+</html>
