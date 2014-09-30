@@ -1,5 +1,7 @@
 *grf*
-libchart\
+libchart\*
 sfondi\
-stat\
+stat\*
+*.log
+
 
