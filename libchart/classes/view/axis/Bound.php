@@ -150,6 +150,7 @@
          * @param double upper boundary value
          */
         public function setUpperBound($upperBound) {
+//				echo $upperBound."<br>";
             $this->upperBound = $upperBound;
         }
      }

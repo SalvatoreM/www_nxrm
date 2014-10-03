@@ -53,9 +53,7 @@ if($operazione=="Disegna"){
 	$db->disconnetti();
 	$a =explode("|",$lista); //lista dei grafici da tracciare
 	//var_dump($a);
-//	$giorno="24";
-//	$mese="Sep";
-//	$anno="2014";
+	$vmax=0;	
 	foreach($a as $l){
 //		echo var_dump($l);
 		$ll=explode("@",$l);
@@ -92,30 +90,36 @@ if($operazione=="Disegna"){
 		if($min_bin_graph){
 			$valori[$indice][0]="Min Input (B/s)";
 			$indice=$indice+1;
-		}		
+		}
 		foreach($vmedi as $vm){
 			$indice=0;
 			if($bin_graph){
+				if ($vm["avg(byte_in_sec)"]>$vmax)  $vmax=$vm["avg(byte_in_sec)"];
 				$valori[$indice][]=$vm["avg(byte_in_sec)"];
 				$indice=$indice+1;
 			}
 			if($bout_graph){
+				if ($vm["avg(byte_out_sec)"]>$vmax)  $vmax=$vm["avg(byte_out_sec)"];
 				$valori[$indice][]=$vm["avg(byte_out_sec)"];
 				$indice=$indice+1;
 			}
 			if($max_bout_graph){
+				if ($vm["max(byte_out_sec)"]>$vmax)  $vmax=$vm["max(byte_out_sec)"];
 				$valori[$indice][]=$vm["max(byte_out_sec)"];
 				$indice=$indice+1;
 			}
 			if($min_bout_graph){
+				if ($vm["min(byte_out_sec)"]>$vmax)  $vmax=$vm["min(byte_out_sec)"];
 				$valori[$indice][]=$vm["min(byte_out_sec)"];
 				$indice=$indice+1;
 			}
 			if($max_bin_graph){
+				if ($vm["max(byte_in_sec)"]>$vmax)  $vmax=$vm["max(byte_in_sec)"];
 				$valori[$indice][]=$vm["max(byte_in_sec)"];
 				$indice=$indice+1;
 			}
 			if($min_bin_graph) {
+				if ($vm["min(byte_in_sec)"]>$vmax)  $vmax=$vm["min(byte_in_sec)"];
 				$valori[$indice][]=$vm["min(byte_in_sec)"];
 				$indice=$indice+1;
 			}

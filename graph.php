@@ -3,7 +3,6 @@
 
 include "libchart/classes/libchart.php";
 
-
 function grafico_doppio ($v,$nomegrafico,$titolo,$i,$ii,$init) {
 //	$chart = new VerticalBarChart(600,200);
 //	$chart = new VerticalBarChart();
@@ -28,12 +27,9 @@ function grafico_doppio ($v,$nomegrafico,$titolo,$i,$ii,$init) {
 	$chart->render($nomegrafico);
 }
 
-function grafico ($v,$nomegraph,$titolo,$x){
+function grafico ($v,$nomegraph,$titolo,$x,$upper=Null){
 #	$chart = new VerticalBarChart(800,200);
 	$chart = new LineChart(700,245);
-#	$chart->getPlot()->getPalette()->setAxisColor(array(new Color(255, 0,0)));
-	$dataSet = new XYDataSet();
-//	$x=$init;
 //	var_dump($x);
 	$ii=0;
 	$serie=array();
@@ -70,7 +66,11 @@ function grafico ($v,$nomegraph,$titolo,$x){
 		$dataSet->addSerie($nome_serie[$ii],$ds);
 		$ii=$ii+1;
 	}
-#	$chart->axis->setUpperBound(400);
+	if ($upper){
+//		echo "Set massimo valore",$upper,"<br>";
+		$chart->setUpper($upper); //solo con LineChar()
+		$chart->setLower(0);	 //solo con LineChar()
+	}
 	$chart->setDataSet($dataSet);
 	$chart->setTitle($titolo);
 	$chart->render($nomegraph);

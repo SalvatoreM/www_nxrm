@@ -118,6 +118,9 @@
             return $this->displayMax;
         }
 
+        public function setUpperBoundary($max) {
+            $this->displayMax=$max;
+        }
         /**
          * Get the value between two ticks3
          *

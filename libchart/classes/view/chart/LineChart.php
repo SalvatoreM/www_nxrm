@@ -34,6 +34,7 @@
             parent::BarChart($width, $height);
 
             $this->plot->setGraphPadding(new Padding(5, 30, 50, 50));
+//				echo "Line Chart <br>";
         }
 
         /**
@@ -195,6 +196,18 @@
             }
 
             $this->plot->render($fileName);
+        }
+       
+        public function setUpper($m) {
+        
+//        		$minValue = $this->axis->getLowerBoundary();
+            	$this->bound->setUpperBound($m);
+        }
+
+        public function setLower($m) {
+        
+//        		$minValue = $this->axis->getLowerBoundary();
+            	$this->bound->setLowerBound($m);
         }
     }
 ?>
