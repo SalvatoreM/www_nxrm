@@ -236,14 +236,12 @@ if($operazione=="Disegna"){
 			else echo '<option value= "'.$anno.'">'.$anno.'</option>';
 		}
 		echo '</select><br>';
-
 		echo '<hr><h6 style="color: blue ;"><input type="checkbox" name="bin" value="True">Rate In (B/s)';
 		echo  '<input type="checkbox" name="min_bin" value="True">Min Rate In (B/s)';
 		echo  '<input type="checkbox" name="max_bin" value="True">Max Rate In (B/s)<br>';
 		echo  '<input type="checkbox" name="bout" value="True">Rate Out (B/s)';
 		echo  '<input type="checkbox" name="min_bout" value="True">Min Rate Out (B/s)';
 		echo  '<input type="checkbox" name="max_bout" value="True">Max Rate Out (B/s)<br><hr>';
-
 	}
 #---------------------------------------------------------------------------------------
 #       Sezione Abilitazione Tracciamento Grafici

@@ -1,5 +1,5 @@
 <!--<script type="text/javascript">
-setTimeout('location.href="http:./tabelle.php"',2000);
+setTimeout('location.href="http:./tabelleRT.php"',2000);
 </script><br>-->
 <!--<META HTTP-EQUIV="REFRESH" CONTENT="2">-->
 <?php include "header.html";?>
@@ -26,14 +26,6 @@ function disegna_barre($v,$n,$vm){
 	echo '<input style="background-color:transparent;color:brown;border-width:0;font-weigth:bold;" type="text" name="" value="'.$v2.'">';
 	echo '</form></td>';
 	echo '<td style="color:brown" ><font size="2">'.(int)$v["avg(byte_out_sec)"].'</td>';
-//,($v["avg(byte_in_sec)"])."B/s";
-
- //style='.'"text-align: center; color:green;"'.'>'.$n.'</td></tr>';
-
-
-
-//	echo '<br><h6>'.$n.' '.'Input '.'<input style="background-color:transparent;color:blue;border-width:0;font-weigth:bold;" type="text" name="" value="'." ".'">';
-//	echo '</form>';
 }
 ?>
 <?php include "graph.php";?>
@@ -52,10 +44,6 @@ $bout_graph=$_POST['bout'];
 $min_bout_graph=$_POST['min_bout'];
 $max_bout_graph=$_POST['max_bout'];
 $opentime=time();
-//echo $_POST['lista']."<br>";
-//echo $opentime,"<br>";
-//echo $bin_graph."---".$min_bin_graph."---".$max_bin_graph."---".$bout_graph."---".$min_bout_graph."---".$max_bout_graph;
-//echo $operazione."<br>";
 #---------------------------------------------------------------------------------------
 #       Sezione Ricerca Nodi
 #---------------------------------------------------------------------------------------
@@ -76,12 +64,9 @@ if(($operazione=="Aggiungi") || ($operazione=="")){
 			$lista="";
 		foreach($nodi as $nodo){
 			$lista=$lista.$nodo['nome']."@".$nodo['ip_wifi']."@".$nodo['ID']."|";
-//			echo $lista."<br>";
 //			$operazione="Disegna";
 		}
 		$lista=substr($lista,0,strlen($lista)-1);
-//		echo $lista."<br>";
-//		echo "Ho scelto Tutti<br>";
 	}
 }
 #---------------------------------------------------------------------------------------
@@ -165,15 +150,9 @@ if($operazione=="Disegna"){
 			echo '<table border="1" style="width:90%; color: blue;" align="center">';
 			echo'<form style="text-align:left; color:black" action="">';
 			echo '<tr style='.'"text-align: center; color:green;"'.'><td ><font size="2">Nodo</font></td>';
-//			echo '<td><form style="text-align:center; color:black" action="">';
-//			echo '<input style="background-color:transparent;color:blue;border-width:0;font-weigth:bold;" type="text" name="" value="% Input">';
 			echo '<td style="color:blue"><font size="2">%&nbsp;Input</td>';
-//			echo '</form></td>';
 			echo '<td style="color:blue"><font size="2">B/s</td>';
-//			echo '<td><form style="text-align:center; color:black" action="">';
 			echo '<td style="color:brown"><font size="2">%&nbsp;Output</td>';
-//			echo '<input style="background-color:transparent;color:brown;border-width:0;font-weigth:bold;" type="text" name="" value="% Output">';
-//			echo '</form></td>';
 			echo '<td style="color:brown" ><font size="2">B/s</td>';
 			$i=0;
 			foreach($medie as $vm){
@@ -194,44 +173,21 @@ if($operazione=="Disegna"){
 			$l=explode("@",$l);
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;". $l[2]." - ".$l[0]." ---> ".$l[1]."<br>";
 		}
-/*		echo '<hr><select name = "giorno" >';
-		$giorni=array("None","01","02","03","04","05","06","07","08","09","10");
-		$giorni=array_merge($giorni,array("11","12","13","14","15","16","17","18","19","20"));
-		$giorni=array_merge($giorni,array("21","22","23","24","25","26","27","28","29","30","31"));
-		foreach ($giorni as $giorno){
-			if ($giorno==$oggi[0]) echo '<option value= "'.$giorno.'"  selected>'.$giorno.'</option>';
-			else echo '<option value= "'.$giorno.'">'.$giorno.'</option>';
-		}
-		echo '</select>';
-		echo '<select name = "mese" >';
-		$mesi=array("None","Jan","Feb","Mar","Apr","May","Jun","Jul","Sep","Oct","Nov","Dec");
-		foreach ($mesi as $mese){
-			if ($mese==$oggi[1]) echo '<option value= "'.$mese.' " selected>'.$mese.'</option>';
-			else echo '<option value= "'.$mese.'">'.$mese.'</option>';
-		}
-		echo '</select>';
-		echo '<select name = "anno" >';
-		$anni=array("2014","2015","2016");
-		foreach ($anni as $anno){
-			if ($mese==$oggi[3]) echo '<option value= "'.$anno.'"selected>'.$anno.'</option>';
-			else echo '<option value= "'.$anno.'">'.$anno.'</option>';
-		}
-		echo '</select><br>';
-		echo '<hr><h6 style="color: blue ;"><input type="checkbox" name="bin" value="True">Rate In (B/s)';
-		echo  '<input type="checkbox" name="min_bin" value="True">Min Rate In (B/s)';
-		echo  '<input type="checkbox" name="max_bin" value="True">Max Rate In (B/s)<br>';
-		echo  '<input type="checkbox" name="bout" value="True">Rate Out (B/s)';
-		echo  '<input type="checkbox" name="min_bout" value="True">Min Rate Out (B/s)';
-		echo  '<input type="checkbox" name="max_bout" value="True">Max Rate Out (B/s)<br><hr>';
-*/
 	}
 #---------------------------------------------------------------------------------------
 #       Sezione Abilitazione Tracciamento Grafici
 #---------------------------------------------------------------------------------------
-	if ($operazione=="Aggiungi") echo '<input name="operazione" value="Disegna" type="submit">';
+	if ($operazione=="Aggiungi") {
+		echo '</form>';
+		echo '<form style="text-align: center;" name="graphic" action="tabelleRT.php" method="post">';
+		echo '<input name="lista"  value="'.$lista.'" type="hidden" size="100" readonly>';
+		echo '<input name="operazione" value="Disegna" type="submit">';
+		echo '</form>';
+	}
+
 ?>
 <!--------------------------------------------------------------------->
-</form>
+<!--</form>-->
 	</td>
 </tr>
 <?php include "footer.html";?>
