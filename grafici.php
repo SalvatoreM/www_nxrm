@@ -58,7 +58,7 @@ if($operazione=="Disegna"){
 //		echo var_dump($l);
 		$ll=explode("@",$l);
 //		echo $ll[1],"-".$ll[0]."-".$ll[2]."<br>";
-		$condizione=sprintf("id_nodo = '%s' and giorno ='%s' group by left(ora,2) order by ID",$ll[2],$giorno);
+		$condizione=sprintf("id_nodo = '%s' and giorno ='%s' and mese='%s' and anno='%s' group by left(ora,2) order by ID",$ll[2],$giorno,$mese,$anno);
 //		echo $condizione."<br>";
 		$valori=array ("id_nodo","min(byte_out_sec)","max(byte_out_sec)","avg(byte_out_sec)");
 		$valori= array_merge ($valori,array("min(byte_in_sec)","max(byte_in_sec)","avg(byte_in_sec)","left(ora,2)"));

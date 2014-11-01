@@ -15,9 +15,12 @@ $descrizione=$_POST['descrizione'];
 $porta=$_POST['porta'];
 $registrato="true";
 $operazione=$_POST['operazione'];
+$mailref=$_POST['mail_add'];
 $eseguito=false;
 $trovato=false;
 $readonly="";
+$mail=$_POST['mail'];
+echo $if."<br>";
 // --------------------------
 // Analisi Input ricevuto
 //---------------------------
@@ -26,7 +29,7 @@ $readonly="";
 //
 if (!empty($nomenodo) and ($operazione=="Registra")){
 //	echo $nomenodo."<br>";
-	list ($nomenodo,$ipwifi,$ipman,$registrato) = registrazione_nodo($nomenodo,$ipwifi,$ipman,$if);
+	list ($nomenodo,$ipwifi,$ipman,$registrato) = registrazione_nodo($nomenodo,$ipwifi,$ipman,$if,$mail,$conatatto);
 	$eseguito=true;
 }
 elseif ($operazione == "Registra"){
@@ -51,16 +54,17 @@ elseif ($operazione == "Cancella"){
 //--- Modifica di un  un Nodo esistente (non ancora attiva)--------
 //
 if (!empty($nomenodo) and ($operazione=="Modifica")){
-	list ($nomenodo,$ipwifi,$ipman) =  modifica_nodo($nomenodo,$ipwifi,$ipman,$if);
+
+	list ($nomenodo,$ipwifi,$ipman,$mail,$mailref,$if) =  modifica_nodo($nomenodo,$ipwifi,$ipman,$if,$mail,$mailref);
 	$readonly="readonly";
 }
 elseif ($operazione == "Modifica"){
 	 $descrizione="Il Servizio deve avere una Nome";
 }
 if (!empty($ipwifi) and ($operazione=="Cerca")){
-	list ($nomenodo,$ipwifi,$ipman,$trovato) = cerca_nodo($nomenodo,$ipwifi);
+	list ($nomenodo,$ipwifi,$ipman,$trovato,$mail,$mailref,$if) = cerca_nodo($nomenodo,$ipwifi);
 	if ($trovato) $readonly="readonly";
-	echo $readonly."<br>";
+	echo $if."<br>";
 }
 elseif ($operazione =="Cerca"){
 	 $ipwifi=" Specificare un indirizzo";
@@ -90,11 +94,37 @@ elseif ($operazione =="Cerca"){
 	<span style="color: black;">&nbsp;&nbsp;Nome Interfaccia:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 	<select name="if">
-		<option value="wlan0">wlan0</option>
-		<option value="eth0">eth0</option>
-		<option value="ath0" selected>ath0</option>
-		<option value="eth1">eth1</option>
-	</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+		<?php
+				if ($if=="ath0"){ echo '<option value="ath0" selected>ath0</option>';}
+				else { echo '<option value="ath0" >ath0</option>';}
+
+				if ($if=="wlan0"){ echo '<option value="wlan0" selected>wlan0</option>';}
+				else { echo '<option value="wlan0" >wlan0</option>';}
+
+				if ($if=="eth0"){ echo '<option value="eth0" selected>eth0</option>';}
+				else { echo '<option value="eth0" >eth0</option>';}
+
+
+				if ($if=="eth1"){ echo '<option value="eth1" selected>eth1</option>';}
+				else { echo '<option value="eth1" >eth1</option>';}
+		?>
+<!--		<option value="eth1" selected>eth1</option>-->
+	</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+	<hr>
+	<span style="color: red;">Se il Nodo non è Attivo segnala con<br></span>
+	<span style="color: black;">
+
+<?php
+		echo '<input  type="radio" name="mail" value="none" checked="checked">Nessuna Email&nbsp;&nbsp;&nbsp;';
+//		if ($mail=="list") { echo '<input  type="radio" name="mail" value="list" checked="checked">Email in Ninux Mail List&nbsp;&nbsp;&nbsp;';}
+//		else { echo '<input  type="radio" name="mail" value="list">Email in Ninux Mail List&nbsp;&nbsp;&nbsp;';}
+		if ($mail=="hown") {echo '<input  type="radio" name="mail" value="hown" checked="checked">Email su Casella Personale<br>';}
+		else {echo '<input  type="radio" name="mail" value="hown">Email su Casella Personale<br>';}
+?>
+	</span>
+	<br><span style="color: black;">Indirizzo Email :
+	<input style="color: black;" name="mail_add" <?php  echo "value=".'"'.$mailref.'"'; ?> type="text" size='30'><br>
+
 <!--	<input name="if" indirizzo="" ip="" della="" wifi=""  <?php  echo "value=".'"'.$ipman.'"'; ?> type="text"><br><br> -->
    <hr>
 <?php
@@ -106,11 +136,11 @@ elseif ($operazione =="Cerca"){
 ?>
    <hr>
    <h4 style="text-align: left;">&nbsp;Servizi Offerti</h4>
-	<span style="color: blue;">Descrizione:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	<span style="color: blue;">Descrizione:&nbsp;&nbsp;&nbsp;</span>
 	<input style="color: black;" name="descrizione" <?php  echo "value=".'"'.$descrizione.'"'; ?> type="text" size='30'><br>
 	<span style="color: blue;">Indirizzo IP:&nbsp;&nbsp;&nbsp;&nbsp;</span>
 	<input style="color: black;" name="ipservizio" <?php  echo "value=".'"'.$ipservizio.'"'; ?> type="text" size='30'><br>
-	<span style="color: blue;">Porta:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;
+	<span style="color: blue;">Porta:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;
 	<input style="color: black;" name="porta" <?php echo "value=".'"'.$porta.'"'; ?> type="text" size='30'>
    <hr>
    <input name="operazione" value="Aggiungi" type="submit">

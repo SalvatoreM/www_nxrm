@@ -9,11 +9,12 @@ setTimeout('location.href="http:./tabelleRT.php"',2000);
 <tr>
 <?php
 function disegna_barre($v,$n,$vm){
-	$v1=str_repeat("|",log(($v["avg(byte_in_sec)"]*100)/($vm),10)*30);
+	$v1=str_repeat("|",log(($v["avg(byte_in_sec)"]*10000)/($vm),10)*15);
 //	echo "v1=",log(($v["avg(byte_in_sec)"])*100/($vm),10)*30," ";
-	$v2=str_repeat("|",log(($v["avg(byte_out_sec)"]*100)/($vm),10)*30);
+	$v2=str_repeat("|",log(($v["avg(byte_out_sec)"]*10000)/($vm),10)*15);
 //	echo "v2=",log(($v["avg(byte_out_sec)"]*100)/($vm),10)*30,"<br>";
-//	echo $v1," ",$v2," ",$vm,"<br>";
+//	echo $v1," ",$v2," ",$vm,log(($v["avg(byte_out_sec)"]*10000)/($vm),10)*15,"<br>";
+//	echo log(($v["avg(byte_out_sec)"]*10000)/($vm),10)*15,"<br>";
 	echo'<form style="text-align:left; color:black" action="">';
 	echo '<tr style='.'"text-align: center; color:green;"'.'><td ><font size="2">'.$n.'</font></td>';
 	echo '<td><form style="text-align:left; color:black" action="">';
@@ -72,16 +73,16 @@ if($operazione=="Disegna"){
 <!-- Form  -->
  <form style="text-align: center;" name="graphic" action="tabelleRT.php" method="post">
  <!--  Sezione  di selezione Nodi   -->
-<h2>Rappresentazione In Tempo Reale  del Traffico sui Nodi<br>
+<h2>Rappresentazione In Tempo Reale  del Traffico sui Nodi<br><hr>
 <!--------------------------------------------------------------------->
 <?php echo '<input name="lista"  value="'.$lista.'" type="hidden" size="100" readonly'; ?>
 <!--  Sezione  di Rappresentazione grafica  dei Nodi -->
 <?php
 #---------------------------------------------------------------------------------------
-#       Sezione Presentazione  Tabelle
+#       Sezione Presentazione Tabella 
 #---------------------------------------------------------------------------------------
 	if ($operazione=="Disegna") {
-			echo '<table border="1" style="width:90%; color: blue;" align="center">';
+			echo '<table border="1" style="width:100%; color: blue;" align="center">';
 			echo'<form style="text-align:left; color:black" action="">';
 			echo '<tr style='.'"text-align: center; color:green;"'.'><td ><font size="2">Nodo</font></td>';
 			echo '<td style="color:blue"><font size="2">%&nbsp;Input</td>';
@@ -95,7 +96,7 @@ if($operazione=="Disegna"){
 			}
 			echo '</table>';
 }
-		echo '<h4>Ultimo aggiornamento    '.date("H:i:s");
+		echo '<hr><h4>Ultimo aggiornamento    '.date("H:i:s");
 ?>
 <!--------------------------------------------------------------------->
 </form>

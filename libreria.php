@@ -4,8 +4,22 @@
 //-------------------------------------------------
 //-------------------------------------------------
 //-------------------------------------------------
+function validate_email($email){
+   $exp = "^[a-z\'0-9]+([._-][a-z\'0-9]+)*@([a-z0-9]+([._-][a-z0-9]+))+$";
+   if(eregi($exp,$email)){
+      if(checkdnsrr(array_pop(explode("@",$email)),"MX")){
+        return true;
+      }
+		else{
+        return false;
+      }
+   }
+	else{
+      return false;
+   }   
+}
 //-------------------------------------------------
-function modifica_nodo ($n,$ipw,$ipm,$if) {
+function modifica_nodo ($n,$ipw,$ipm,$if,$mail,$contatto) {
 	$all_valid=true;
 	$valid = ip2long($ipw) !== false;
 	if (!$valid){	
@@ -17,6 +31,12 @@ function modifica_nodo ($n,$ipw,$ipm,$if) {
 		$all_valid=false;
 		$ipm.="(IP non Valido)";
 	}
+	if ($mail=="hown"){
+		if(!validate_email($contatto)){
+			$all_valid=false;
+			$contatto.=" (Indirizzo mail non valido)";
+		}
+	}
 	if ($all_valid){
 		$db = new DBclass();
 		$db->connetti();
@@ -26,6 +46,8 @@ function modifica_nodo ($n,$ipw,$ipm,$if) {
 //			$record["ip_wifi"]=$ipw;
 			$record["ip_man"]=$ipm;
 			$record["interface"]=$if;
+			$record["mail"]=$mail;
+			$record["contattomail"]=$contatto;
 			$db->update("nodi",$record,"ip_wifi = '".$ipw."'");
 		}
 		elseif($nr >1){
@@ -38,8 +60,9 @@ function modifica_nodo ($n,$ipw,$ipm,$if) {
 		}
 		$db->disconnetti();
 	}
-	echo $n."<br>";
-	return array ($n, $ipw, $ipm,$all_valid);
+//	echo $n."<br>";
+//	return array ($n, $ipw, $ipm,$contatto,$all_valid);
+	return array ($n, $ipw, $ipm,$mail,$contatto,$if);
 }
 //-------------------------------------------------
 //-------------------------------------------------
@@ -55,12 +78,14 @@ function cerca_nodo ($n,$ipw) {
 		$db->connetti();
 		$nr=$db->esiste("nodi","ip_wifi ='".$ipw."'");
 		if($nr == 1){
-			$record=$db->estrai_record("nodi",array ("nome","ip_wifi","ip_man","interface","creato","attivo","registrato"),"ip_wifi = '".$ipw."'");
+			$record=$db->estrai_record("nodi",array ("nome","ip_wifi","ip_man","interface","creato","attivo","registrato","mail","contattomail"),"ip_wifi = '".$ipw."'");
 //			echo var_dump($record);
 			$n=$record [0]["nome"];
 			$ipw=$record[0]["ip_wifi"];
 			$ipm=$record[0]["ip_man"];
 			$if=$record[0]["interface"];
+			$mail=$record[0]["mail"];
+			$contatto=$record[0]["contattomail"];
 			$all_valid="trovato";
 		}
 		elseif($nr >1){
@@ -73,12 +98,13 @@ function cerca_nodo ($n,$ipw) {
 		}
 		$db->disconnetti();
 	}
-	echo $n."<br>";
-	return array ($n, $ipw, $ipm,$all_valid);
+//	echo $n."<br>";
+	echo $if."<br>";
+	return array ($n, $ipw, $ipm,$all_valid,$mail,$contatto,$if);
 }
 //-------------------------------------------------
 //-------------------------------------------------
-function registrazione_nodo ($n,$ipw,$ipm,$if) {
+function registrazione_nodo ($n,$ipw,$ipm,$if,$mail,$mail) {
 	echo "Passata di qui <br>";
 	$all_valid=true;
 	if (!empty($n)){
@@ -93,14 +119,14 @@ function registrazione_nodo ($n,$ipw,$ipm,$if) {
 			$ipm.="(IP non Valido)";
 		}
 	}
-	echo "Passata di qui <br>";
+//	echo "Passata di qui <br>";
 	if ($all_valid){
 		$db = new DBclass();
 		$db->connetti();
 //		$db->	estrai_record("nodi",array ("nome","ip_wifi","ip_man","interface","creato","attivo","registrato"),"nome = 'Firenze::Lippi'");
 		if(!$db->esiste("nodi","ip_wifi ='".$ipw."'")){
 			if(!$db->esiste("nodi","ip_man = '".$ipm."'")){
-				$db->inserisci("nodi",array($n," ",$ipw,$ipm," ", date("Y/m/d H:i:s", time()),$if,"false","false"),array("nome","location","ip_wifi","ip_man","contatto","creato","interface","attivo","registrato"));
+				$db->inserisci("nodi",array($n," ",$ipw,$ipm," ", date("Y/m/d H:i:s", time()),$if,"false","false",$mail),array("nome","location","ip_wifi","ip_man","contatto","creato","interface","attivo","registrato","mail"));
 	//			echo date("Y/m/d H:i:s", time()); 		
 			}
 			else{
@@ -251,7 +277,7 @@ class DBclass {
             }
             $v = implode(',',$v);
             $istruzione .= ' VALUES ('.$v.')';
-//				echo $istruzione."<br>";
+				echo $istruzione."<br>";
             $query = mysql_query($istruzione,$this->connessione) or die (mysql_error());
       }
 		else{
@@ -411,8 +437,8 @@ class DBclass {
    	      	}
    		}
          $istruzione .= " WHERE ".$o;
-			echo $istruzione."<br>";
-//       $query = mysql_query($istruzione,$this->connessione) or die (mysql_error());
+//			echo $istruzione."<br>";
+			$query = mysql_query($istruzione,$this->connessione) or die (mysql_error());
 		}
 		else{
       	return false;
